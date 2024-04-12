@@ -40,12 +40,7 @@ app.use(passport.initialize());
 app.post("/api/user/register", (req, res) => {
     userService.registerUser(req.body)
     .then((user) => {
-        let payload = {
-            _id: user._id,
-            userName: user.userName,
-        };
-        let token = jwt.sign(payload, jwtOptions.secretOrKey);
-        res.json({ message: 'login successful', token: token });
+        res.json({ "message": "register successful"});
     }).catch((msg) => {
         res.status(422).json({ "message": msg });
     });
@@ -54,7 +49,13 @@ app.post("/api/user/register", (req, res) => {
 app.post("/api/user/login", (req, res) => {
     userService.checkUser(req.body)
     .then((user) => {
-        res.json({ "message": "login successful"});
+      let payload = {
+            _id: user._id,
+            userName: user.userName,
+        };
+        let token = jwt.sign(payload, jwtOptions.secretOrKey);
+        res.json({ message: 'login successful', token: token });
+        
     }).catch(msg => {
         res.status(422).json({ "message": msg });
     });
